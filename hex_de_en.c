@@ -21,6 +21,7 @@ int main(){
 
 void hex_de(){
 	char input[LEN] = "";
+	unsigned char key;
 	printf("输入十六进制字符,结尾输入0A表示输入结束\n");
 	char ch;
 	int cnt = 0;
@@ -29,16 +30,27 @@ void hex_de(){
 		input[cnt++] = ch;
 		scanf("%hhx",&ch);
 	}
-	puts(input);
+	int has_key = 0;
+	printf("有密钥输入1,无密钥输入0\n");
+	scanf("%d",&has_key);
+	if(has_key){
+		printf("输入你的密钥\n");
+		scanf("%hhi",&key);
+		printf("你输入的密钥是%hhx\n",key);
+	}else{
+		key = 0x00;
+	}
 	cnt = 0;
-	unsigned char key = 0x00;
 	char output[LEN] ="";
+	printf("解密的结果:\n");
 	while(cnt < 255){
 		for (int i = 0; input[i]!=0 ; ++i)
 		{
 			output[i] = input[i] ^ key;
 		}
 		puts(output);
+		if(has_key)
+			break;
 		key++;
 		cnt++;
 	}
@@ -53,6 +65,12 @@ void hex_en(){
 	while((ch=getchar()) != '\n'){
 		input[cnt++] = ch;
 	}
+	printf("加密前的十六进制结果是:\n");
+	for (int i = 0; input[i]!=0; ++i)
+	{
+		printf("%hhx ",input[i]);
+	}
+	putchar('\n');
 	printf("输入加密密钥\n");
 	unsigned char key;
 	scanf("%hhi",&key);
